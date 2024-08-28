@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo-List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 class="do_title">Todo List</h1>
+    <h3 class="do_text">Add and remove some of your goals easily.</h3>
+    
+    <div class="list">
+    </div>
+    <script>
+        for (i=0; i < parseInt(localStorage.getItem('number')); i++) {
+            console.log(localStorage.getItem(String(i + 1)))
+            document.querySelector('.list').insertAdjacentHTML('beforeend', 
+            '<div class="item new"><input type="text" class="item_text" id="text-id" value=${localStorage.getItem(String(i + 1))}><button class="close">&times;</button></div>')
+            document.getElementsByClassName('item_text')[i].value = localStorage.getItem(String(i + 1))
+        }
+    </script>
+    <div class="buttons"></div>
+        <button class="save">&#10004;</button>
+        <button class="add">+</button>
+    </div>
+    <script>
+        if (!localStorage.getItem('number')) {
+            localStorage.setItem('number', 1)
+        }
+        but = document.querySelector(".add")
+        but.onclick = function() {
+            console.log('добавлено')
+            document.querySelector('.list').insertAdjacentHTML('beforeend', 
+            '<div class="item new"><input type="text" class="item_text" id="text-id"><button class="close">&times;</button></div>')
+            localStorage.setItem('number', parseInt(localStorage.getItem('number')) + 1)
+            items_new = document.querySelectorAll('.item')
+            for (let item_new of items_new) {
+                item_new.querySelector(".close").onclick = function() {
+                    item_new.remove()
+                    localStorage.setItem('number', parseInt(localStorage.getItem('number')) - 1)
+                    console.log('нажата new')
+                }
+            }
+        }
+        
+        items = document.querySelectorAll(".item")
+        for (let item of items) {
+            item.querySelector(".close").onclick = function() {
+                item.remove()
+                localStorage.setItem('number', parseInt(localStorage.getItem('number')) - 1)
+                console.log('нажата')
+            }
+            
+        }
+        document.querySelector('.save').onclick = function() {
+            let num = localStorage.getItem('number')
+            localStorage.clear()
+            localStorage.setItem('number', num)
+            let i = 0
+            items = document.querySelectorAll('.item_text')
+            for (let item of items) {
+                i = i + 1
+                localStorage.setItem(String(i), item.value)
+                console.log('нажата')
+            }
+        }
+    </script>
+</body>
+</html>
